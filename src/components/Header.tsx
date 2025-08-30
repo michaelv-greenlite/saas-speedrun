@@ -1,3 +1,4 @@
+
 import { Link } from '@tanstack/react-router'
 import { SignedIn } from '@clerk/tanstack-react-start'
 
@@ -42,6 +43,7 @@ export default function Header() {
         </SignedIn>
 
         <div className="px-2 font-bold">
+
           <Link 
             to="/demo/start/server-funcs"
             activeProps={{
@@ -50,6 +52,15 @@ export default function Header() {
           >
             Server Functions
           </Link>
+          </div>
+          
+
+                <div className="px-2 font-bold">
+          <Link to="/ui">UI Demos</Link>
+        </div>
+
+        <div className="px-2 font-bold">
+          <Link to="/demo/start/server-funcs">Start - Server Functions</Link>
         </div>
 
         <div className="px-2 font-bold">
@@ -62,7 +73,9 @@ export default function Header() {
             API Request
           </Link>
         </div>
+          
+          
       </nav>
     </header>
-  )
+  );
 }

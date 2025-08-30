@@ -12,6 +12,7 @@ import { createServerRootRoute } from '@tanstack/react-start/server'
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthedRouteImport } from './routes/_authed'
+import { Route as UiRouteImport } from './routes/ui'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthedProfileRouteImport } from './routes/_authed/profile'
 import { Route as AuthedDashboardRouteImport } from './routes/_authed/dashboard'
@@ -23,6 +24,11 @@ const rootServerRouteImport = createServerRootRoute()
 
 const AuthedRoute = AuthedRouteImport.update({
   id: '/_authed',
+    getParentRoute: () => rootRouteImport,
+} as any)
+const UiRoute = UiRouteImport.update({
+  id: '/ui',
+  path: '/ui',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof AuthedDashboardRoute
   '/profile': typeof AuthedProfileRoute
+  '/ui': typeof UiRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
 }
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof AuthedDashboardRoute
   '/profile': typeof AuthedProfileRoute
+  '/ui': typeof UiRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
 }
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/_authed': typeof AuthedRouteWithChildren
   '/_authed/dashboard': typeof AuthedDashboardRoute
   '/_authed/profile': typeof AuthedProfileRoute
+  '/ui': typeof UiRoute
   '/demo/start/api-request': typeof DemoStartApiRequestRoute
   '/demo/start/server-funcs': typeof DemoStartServerFuncsRoute
 }
@@ -100,6 +109,15 @@ export interface FileRouteTypes {
     | '/_authed'
     | '/_authed/dashboard'
     | '/_authed/profile'
+    | '/ui'
+    | '/demo/start/api-request'
+    | '/demo/start/server-funcs'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '/ui' | '/demo/start/api-request' | '/demo/start/server-funcs'
+  id:
+    | '__root__'
+    | '/'
+    | '/ui'
     | '/demo/start/api-request'
     | '/demo/start/server-funcs'
   fileRoutesById: FileRoutesById
@@ -107,6 +125,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthedRoute: typeof AuthedRouteWithChildren
+  UiRoute: typeof UiRoute
   DemoStartApiRequestRoute: typeof DemoStartApiRequestRoute
   DemoStartServerFuncsRoute: typeof DemoStartServerFuncsRoute
 }
@@ -139,6 +158,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof AuthedRouteImport
+       parentRoute: typeof rootRouteImport
+    }
+    '/ui': {
+      id: '/ui'
+      path: '/ui'
+      fullPath: '/ui'
+      preLoaderRoute: typeof UiRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -206,6 +232,7 @@ const AuthedRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthedRoute: AuthedRouteWithChildren,
+  UiRoute: UiRoute,
   DemoStartApiRequestRoute: DemoStartApiRequestRoute,
   DemoStartServerFuncsRoute: DemoStartServerFuncsRoute,
 }
